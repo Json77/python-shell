@@ -1,0 +1,81 @@
+ironic neutron 整合，Ocata7.0版本
+
+目的：
+解决ironic只能部署flat网络，通过收集LLDP信息传递给neutron ML2插件，控制ToR交换机实现网络隔离。
+neutron需要链路集合的概念。文章说明了：裸机多网口在属于单一LAG的交换机port，属于同一网络。对trunk口属于多网络的有额外的说明，多网口属于不同网络的需要指定那个NIC属于哪个network，但是决定哪个网口获得哪个net需要在其他地方指定。
+
+改动：
+node注册->收集LLDP->记录在port->创建port group->ironic发送本地连接信息到neutron,以端口绑定配置文件形式->
+文件包含group里每个port的连接信息，不属于port group的只包含连接信息->neutron根据长度判断单port或group（group需要额外开关配置管理LAG）->
+每个配置文件调用api创建一个单独的neutron port->每个port group对应一个LAG，所有成员交换机口属于同一个net，对应同一个网段。
+
+node放到部署网，切换到租户网：（额外文档）配置文件里有端口是否需要绑定的变量。使ironic可以延迟绑定，直到能够发布neutron需要的附加信息。
+
+部署后不再支持PXE booting，原因是连不到TFTP服务器。部署完离开部署网络后，要本地启动。可以由租户网络路由或者每个网络一个TFTP。（virtual media 驱动支持，完全走带外，裸机网络不需要连接conductor）
+
+ironic port需要local_link_infomation：
+    switch_id
+    port_id
+    switch_info
+由LLDP收集，port_id是系统名，switch_id是交换名（可以是lldp mac），switch_info可选，区分不同交换模块。ironic和neutron贡献。
+
+建port group需要：
+    id
+    uuid
+    name
+    node_id
+    address（绑定NIC的mac地址，可选。用nova，这个值是由neutron生成的VIF地址，standalone是None）
+    mode（指定绑定模式[DEFAULT]default_portgroup_mode）
+    properties（设置port group的附加选项）
+    extra（附加的信息）
+    internal_info（元数据，只读）
+    standalone_ports_supported（是不是group的）
+
+ironic port对象增加：
+    local_link_connection
+    portgroup_id
+    pxe_enabled
+
+如果有多允许pxe的网口或者group，都会起dhcp。
+需要传递给neutron的，vnic_type(baremetal用于过滤)，local_link_infomation，host_id（uuid）
+
+影响数据模式，状态机，REST API，命令行，驱动，neutron，nova。
+
+nova配置驱动，加bond_前缀。
+
+
+
+网口连接分离api，Ocata7.0版本
+目的：实现支持部署后连接和分离网络VIF，实现动态vNIC创建
+实现：新的api endpoint，ironic的
+
+
+可附加的网络管理，Newton6.1版本
+目的：
+实现部署网络和租户网络分离，并在之间切换。
+进而扩展到用户可能希望更多的管理网络，比如额外的清除和修复任务。
+实现：
+第一步，node里添加一个信息，network_provider。默认是none。
+第二步：关联硬件到网络。
+    控制平面——部署网络，可以连接ironic管理的平面来部署，关闭或管理节点。能够让节点连接或断开这个平面。
+    网络提供也要直到如何使节点连接和断开不同租户网络。又nova user和nova决定。nova创建neutron port（裸机连接）。但是这些节点是非绑定的，没有足够信息铅垂。ironic发送一个port-update请求到neutron，传递必要的信息来完成绑定。在部署镜像之后，在关机和开机调用之间，启动用户镜像。（可能对从卷启动有影响，还不支持）。nova在绑定配置文件发送一个空host_id，防止neutron立即绑定这个port，推迟绑定可以允许ironic通知neutron在必要的时候再绑定。ironic发送node_uuid作为host_id，同事删除连接node到部署网络的neutron port。相反的操作在tear down时发生。
+
+如果有老的nova客户端发送了host_id。ironic处理：
+1、节点在使用neutron network provider，ironic获取port，如果在使用，就跳过。如果是因为缺少交换机口信息失败，更新交换信息，允许bound。
+2、节点使用none的provider，节点在部署后在部署网络，如现在一样处理，配置dhcp设置。
+
+nova和ironic需要都使用binding:profile字典来传递物理交换口信息。
+nova目前假设每个ironic port只连接一个网络。以后会决定哪个网口连到哪个网络，像虚机一样的任意数量网口硬件上不支持。
+
+如果node有port group。这些将连接到网络而不是单个port，LAG连接方式。
+ironic如果独立于nova部署，使用者需要发送同样的请求。
+
+切到租户网络后禁止pxe启动，同ironic介绍。
+ramdisk只在部署网络运行，instance只在租户网络运行。
+
+对驱动的影响，新加了一个接口，NetworkProvider。这个接口不是ironic驱动组成部分。
+多了两个配置选项：CONF.provisioning_network指定了部署网络的ID，CONF.default_network_provider指定了默认的network provider，默认值是NULL。
+增加了一个数据窗，Node.network_provider。
+需要更新nova，需要ML2驱动支持。
+
+

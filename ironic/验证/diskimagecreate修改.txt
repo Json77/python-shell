@@ -1,0 +1,25 @@
+修改/elements/pkg-map/bin/pkg-map,增加mimosa
+修改在/elements/package-installs/install.d/01-package-installs里rm -f /var/lib/rpm/__db*加rpm --rebuilddb
+
+
+export no_proxy="*.zte.com.cni*,10.0.0.0/8,10.43.0.0/16,10.43.177.140,10.43.166.102,127.0.0.1,10.43.166.59,10.43.166.55"
+
+export PATH=$PATH:$(pwd)/diskimage-builder/bin:$(pwd)/dib-utils/bin
+export DIB_DEV_USER_PWDLESS_SUDO="yes"
+export DIB_DEV_USER_USERNAME="user"
+export DIB_DEV_USER_PASSWORD="password"
+
+本地化：
+export DIB_DISTRIBUTION_MIRROR="http://10.43.166.55"
+修改：
+/elements/centos-minimal/yum.repos.d/yum.repo里有mirrorlist
+
+
+
+disk-image-create --offline ironic-agent centos7 devuser -o ironic-deploy
+
+
+
+
+disk-image-create ubuntu vm dhcp-all-interfaces devuser -o my-image
+disk-image-create ironic-agent ubuntu devuser -o ironic-deploy

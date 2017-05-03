@@ -1,0 +1,311 @@
+Welcome to PowerEdge M1000e CMC firmware version 5.20
+
+$ connect switch-a1
+connect: acquiring remote port.
+
+Connected to remote port.
+Escape character is '^\'.
+
+M6220_A1>
+M6220_A1>en
+Password:******
+
+M6220_A1#configure 
+
+M6220_A1(config)#show interfaces ?      
+
+advanced                 Advanced interface settings
+advertise                Show the auto negotiation advertisement information.
+configuration            Interface configuration
+cos-queue                Display COS queue information.
+counters                 Interface counters
+description              Interface Description.
+detail                   Interface detail.
+loopback                 Display the configured loopback interface information.
+mtu                      Display the configured on interface MTU size.
+port-channel             Display port-channel configuration information.
+status                   Interface status
+switchport               Display statistics for the entire switch.
+tunnel                   Display the configured tunnel interface information.
+
+M6220_A1(config)#show interfaces switchport 
+
+Port: Gi1/0/1
+VLAN Membership Mode: Access Mode
+Access Mode VLAN: 1 (default)
+General Mode PVID: 1 (default)
+General Mode Ingress Filtering: Enabled
+General Mode Acceptable Frame Type: Admit All
+General Mode Dynamically Added VLANs:
+General Mode Untagged VLANs: 1
+General Mode Tagged VLANs:
+General Mode Forbidden VLANs:
+Trunking Mode Native VLAN: 1 (default)
+Trunking Mode Native VLAN Tagging: Disabled
+Trunking Mode VLANs Enabled: All
+Default Priority: 0
+Protected: Disabled
+
+Port: Gi1/0/2
+VLAN Membership Mode: Access Mode
+Access Mode VLAN: 1 (default)
+General Mode PVID: 1 (default)
+General Mode Ingress Filtering: Enabled
+General Mode Acceptable Frame Type: Admit All
+--More-- or (q)uit
+General Mode Dynamically Added VLANs:
+General Mode Untagged VLANs: 1
+General Mode Tagged VLANs:
+General Mode Forbidden VLANs:
+Trunking Mode Native VLAN: 1 (default)
+Trunking Mode Native VLAN Tagging: Disabled
+Trunking Mode VLANs Enabled: All
+Default Priority: 0
+Protected: Disabled
+
+Port: Gi1/0/3
+VLAN Membership Mode: Access Mode
+Access Mode VLAN: 1 (default)
+General Mode PVID: 1 (default)
+General Mode Ingress Filtering: Enabled
+General Mode Acceptable Frame Type: Admit All
+General Mode Dynamically Added VLANs:
+General Mode Untagged VLANs: 1
+General Mode Tagged VLANs:
+General Mode Forbidden VLANs:
+Trunking Mode Native VLAN: 1 (default)
+Trunking Mode Native VLAN Tagging: Disabled
+Trunking Mode VLANs Enabled: All
+--More-- or (q)uit
+Default Priority: 0
+Protected: Disabled
+
+Port: Gi1/0/4
+VLAN Membership Mode: Access Mode
+Access Mode VLAN: 1 (default)
+General Mode PVID: 1 (default)
+General Mode Ingress Filtering: Enabled
+General Mode Acceptable Frame Type: Admit All
+General Mode Dynamically Added VLANs:
+General Mode Untagged VLANs: 1
+General Mode Tagged VLANs:
+General Mode Forbidden VLANs:
+Trunking Mode Native VLAN: 1 (default)
+Trunking Mode Native VLAN Tagging: Disabled
+Trunking Mode VLANs Enabled: All
+Default Priority: 0
+Protected: Disabled
+
+Port: Gi1/0/5
+VLAN Membership Mode: Access Mode
+Access Mode VLAN: 10
+General Mode PVID: 1 (default)
+--More-- or (q)uit
+General Mode Ingress Filtering: Enabled
+General Mode Acceptable Frame Type: Admit All
+General Mode Dynamically Added VLANs:
+General Mode Untagged VLANs: 1
+General Mode Tagged VLANs:
+General Mode Forbidden VLANs:
+Trunking Mode Native VLAN: 1 (default)
+Trunking Mode Native VLAN Tagging: Disabled
+Trunking Mode VLANs Enabled: All
+Default Priority: 0
+Protected: Disabled
+
+Port: Gi1/0/6
+VLAN Membership Mode: Access Mode
+Access Mode VLAN: 1 (default)
+General Mode PVID: 1 (default)
+General Mode Ingress Filtering: Enabled
+General Mode Acceptable Frame Type: Admit All
+General Mode Dynamically Added VLANs:
+General Mode Untagged VLANs: 1
+General Mode Tagged VLANs:
+General Mode Forbidden VLANs:
+Trunking Mode Native VLAN: 1 (default)
+--More-- or (q)uit
+Trunking Mode Native VLAN Tagging: Disabled
+Trunking Mode VLANs Enabled: All
+Default Priority: 0
+Protected: Disabled
+
+Port: Gi1/0/7
+VLAN Membership Mode: Access Mode
+Access Mode VLAN: 10
+General Mode PVID: 1 (default)
+General Mode Ingress Filtering: Enabled
+General Mode Acceptable Frame Type: Admit All
+General Mode Dynamically Added VLANs:
+General Mode Untagged VLANs: 1
+General Mode Tagged VLANs:
+General Mode Forbidden VLANs:
+Trunking Mode Native VLAN: 1 (default)
+Trunking Mode Native VLAN Tagging: Disabled
+Trunking Mode VLANs Enabled: All
+Default Priority: 0
+Protected: Disabled
+
+Port: Gi1/0/8
+VLAN Membership Mode: Access Mode
+--More-- or (q)uit
+Access Mode VLAN: 10
+General Mode PVID: 1 (default)
+General Mode Ingress Filtering: Enabled
+General Mode Acceptable Frame Type: Admit All
+General Mode Dynamically Added VLANs:
+General Mode Untagged VLANs: 1
+General Mode Tagged VLANs:
+General Mode Forbidden VLANs:
+Trunking Mode Native VLAN: 1 (default)
+Trunking Mode Native VLAN Tagging: Disabled
+Trunking Mode VLANs Enabled: All
+Default Priority: 0
+Protected: Disabled
+
+Port: Gi1/0/9
+VLAN Membership Mode: Access Mode
+Access Mode VLAN: 9
+General Mode PVID: 1 (default)
+General Mode Ingress Filtering: Enabled
+General Mode Acceptable Frame Type: Admit All
+General Mode Dynamically Added VLANs:
+General Mode Untagged VLANs: 1
+General Mode Tagged VLANs:
+--More-- or (q)uit
+
+M6220_A1(config)#interface Gi1/0/8          
+
+M6220_A1(config-if-Gi1/0/8)#?
+
+channel-group            Add this port to a port-channel.
+classofservice           Configure Class of Service parameters.
+cos-queue                Configure CoS queue weights and drop precedence.
+description              Add Description to the interface
+dhcp                     Configure DHCP layer 2 relay parameters.
+do                       Run Privileged Exec mode commands.
+dot1x                    Configure Dot1x interface commands.
+duplex                   Configure Full/Half duplex operation on the interface
+exit                     To exit from the mode.
+garp                     Configure Generic Attribute Registration Protocol
+                         parameters.
+gmrp                     Set GARP Multicast Registration Protocol parameters.
+gvrp                     Set GARP VLAN Registration Protocol parameters.
+interface                Interface keyword.
+ip                       Configure IP routing and host protocols.
+ipv6                     Configure IP routing and host protocols.
+isdp                     Enables/Disables ISDP on a port.
+lacp                     Configure IEEE 802.3 link aggregation settings.
+lldp                     Configure LLDP.
+mac                      Configure MAC Access List group parameters.
+macro                    Macro command
+mode                     Configure the double VLAN tunnel mode for this
+--More-- or (q)uit
+                         interface.
+mtu                      Sets the default MTU size.
+port                     Enable/Disable port MAC Locking/Security for
+                         interface.
+protocol                 Configure the protocol based VLAN settings.
+rmon                     Set RMON properties.
+service-policy           Configure DiffServ service.
+sflow                    Configure sflow parameters.
+show                     Show configured settings and operational status.
+shutdown                 Enable/Disable a port.
+spanning-tree            Configure spanning-tree mode and settings.
+speed                    Configure speed of the interface
+storm-control            Configure storm-control features.
+switchport               Configure switch port definition in VLAN.
+traffic-shape            Configure the maximum transmission bandwidth limit.
+udld                     Enable/Disable UDLD on a port.
+vlan                     Configure the priority for untagged frames.
+
+M6220_A1(config-if-Gi1/0/8)#vlan ?
+
+priority                 Configure the priority for untagged frames.
+
+M6220_A1(config-if-Gi1/0/8)#vlan 9
+                                 ^
+% Invalid input detected at '^' marker.
+
+M6220_A1(config-if-Gi1/0/8)#vlan ?
+
+priority                 Configure the priority for untagged frames.
+
+M6220_A1(config-if-Gi1/0/8)#switchport ?
+
+access                   Configure the VLAN when interface is in Access Mode.
+general                  Configure the VLAN when interface is in General Mode.
+mode                     Configure the VLAN membership mode of a port.
+protected                Configure switchport to protected mode.
+trunk                    Configure the VLAN when interface is in Trunk Mode.
+
+M6220_A1(config-if-Gi1/0/8)#switchport access ?
+
+vlan                     Enter VLAN ID.
+
+M6220_A1(config-if-Gi1/0/8)#switchport access vlan 9
+
+M6220_A1(config-if-Gi1/0/8)#exit
+
+M6220_A1(config)#show running-config 
+
+!Current Configuration:
+!System Description "PowerConnect M6220, 5.1.9.4, VxWorks 6.6"
+!System Software Version 5.1.9.4
+!Cut-through mode is configured as disabled
+!System Operational Mode "Normal"
+!
+configure
+vlan 9-10
+exit
+hostname "M6220_A1"
+slot 1/0 1    ! PowerConnect M6220
+stack
+member 1 1    ! PCM6220
+exit
+interface out-of-band
+ip address 129.0.0.155 255.0.0.0 129.0.0.121
+exit
+interface vlan 1 1
+exit
+interface vlan 10 2
+exit
+no passwords min-length
+--More-- or (q)uit
+username "root" password e6e66b8981c1030d5650da159e79539a privilege 15 encrypted
+!
+interface Gi1/0/5
+switchport access vlan 10
+exit
+!
+interface Gi1/0/7
+switchport access vlan 10
+exit
+!
+interface Gi1/0/8
+switchport access vlan 9
+exit
+!
+interface Gi1/0/9
+switchport access vlan 9
+exit
+!
+interface Gi1/0/10
+switchport access vlan 10
+exit
+!
+interface Gi1/0/17
+--More-- or (q)uit
+switchport access vlan 10
+exit
+!
+interface Gi1/0/18
+switchport access vlan 10
+exit
+!
+interface Gi1/0/20
+switchport access vlan 9
+exit
+snmp-server engineid local 800002a203f48e382f583f
+enable password e6e66b8981c1030d5650da159e79539a encrypted
+exit

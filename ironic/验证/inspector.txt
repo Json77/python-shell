@@ -1,0 +1,106 @@
+inspector
+
+openstack user create --password IRONIC_INSPECTOR_PASSWORD --email ironic_inspector@example.com ironic-inspector
+
+openstack role add --project services --user ironic-inspector admin
+
+openstack service create --name ironic-inspector --description "Ironic baremetal inpector service" baremetal-introspection
+
+openstack endpoint create --region RegionOne --publicurl http://192.168.2.40:5050 --internalurl http://192.168.2.40:5050 --adminurl http://192.168.2.40:5050 baremetal-introspection
+
+
+# mysql -u root -p
+mysql> CREATE DATABASE ironic_inspector CHARACTER SET utf8;
+
+mysql> GRANT ALL PRIVILEGES ON ironic_inspector.* TO 'ironic_inspector'@'localhost' IDENTIFIED BY 'IRONIC_INSPECTOR_PASSWORD';
+
+mysql> GRANT ALL PRIVILEGES ON ironic_inspector.* TO 'ironic_inspector'@'%' IDENTIFIED BY 'IRONIC_INSPECTOR_PASSWORD';
+
+ironic node-set-provision-state £¼UUID£¾ manage
+
+ openstack baremetal introspection start [--wait] [--new-ipmi-password=PWD [--new-ipmi-username=USER]] UUID [UUID ...] 
+ openstack baremetal introspection status UUID
+
+ systemctl status openstack-ironic-inspector.service -l
+ systemctl status openstack-ironic-inspector-dnsmasq.service
+ systemctl status openstack-ironic-conductor.service -l
+ 
+ironic node-set-provision-state £¼UUID£¾ provide 
+
+
+
+
++------------------------+------------------------------------------------------------------+
+| chassis_uuid           |                                                                  |
+| clean_step             | {}                                                               |
+| console_enabled        | False                                                            |
+| created_at             | 2016-12-22T06:15:16+00:00                                        |
+| driver                 | pxe_ipmitool                                                     |
+| driver_info            | {u'ipmi_password': u'******', u'ipmi_address': u'192.168.2.27',  |
+|                        | u'ipmi_username': u'USERID', u'deploy_kernel':                   |
+|                        | u'4c7350e8-7723-42c6-b533-35a16e52be9d', u'deploy_ramdisk':      |
+|                        | u'0045bef9-10e6-4649-81cb-a588c47a09f9'}                         |
+| driver_internal_info   | {}                                                               |
+| extra                  | {}                                                               |
+| inspection_finished_at | None                                                             |
+| inspection_started_at  | None                                                             |
+| instance_info          | {u'ramdisk': u'3c80a17d-0a91-4bf5-b267-48a5d3517793', u'kernel': |
+|                        | u'98640248-0a42-4ffe-8d08-6c99e1e21162', u'root_gb': 100,        |
+|                        | u'image_source': u'e3e12939-d36b-4bcf-9d56-75c6c3415d2b'}        |
+| instance_uuid          | None                                                             |
+| last_error             | None                                                             |
+| maintenance            | False                                                            |
+| maintenance_reason     | None                                                             |
+| name                   | None                                                             |
+| power_state            | None                                                             |
+| properties             | {u'capabilities': u'boot_option:local'}                          |
+| provision_state        | available                                                        |
+| provision_updated_at   | None                                                             |
+| raid_config            |                                                                  |
+| reservation            | None                                                             |
+| target_power_state     | None                                                             |
+| target_provision_state | None                                                             |
+| target_raid_config     |                                                                  |
+| updated_at             | 2016-12-22T06:15:26+00:00                                        |
+| uuid                   | acb89d45-e11c-495e-9310-6c473013ed53                             |
++------------------------+------------------------------------------------------------------+
+
++------------------------+-------------------------------------------------------------------------+
+| Property               | Value                                                                   |
++------------------------+-------------------------------------------------------------------------+
+| chassis_uuid           |                                                                         |
+| clean_step             | {}                                                                      |
+| console_enabled        | False                                                                   |
+| created_at             | 2016-12-22T03:10:37+00:00                                               |
+| driver                 | pxe_ipmitool                                                            |
+| driver_info            | {u'ipmi_password': u'******', u'ipmi_address': u'192.168.2.27',         |
+|                        | u'ipmi_username': u'USERID', u'deploy_kernel':                          |
+|                        | u'4c7350e8-7723-42c6-b533-35a16e52be9d', u'deploy_ramdisk':             |
+|                        | u'0045bef9-10e6-4649-81cb-a588c47a09f9'}                                |
+| driver_internal_info   | {}                                                                      |
+| extra                  | {}                                                                      |
+| inspection_finished_at | None                                                                    |
+| inspection_started_at  | None                                                                    |
+| instance_info          | {}                                                                      |
+| instance_uuid          | None                                                                    |
+| last_error             | None                                                                    |
+| maintenance            | False                                                                   |
+| maintenance_reason     |                                                                         |
+| name                   | None                                                                    |
+| power_state            | power off                                                               |
+| properties             | {u'memory_mb': u'262144', u'cpu_arch': u'x86_64', u'local_gb': u'1114', |
+|                        | u'cpus': u'40'}                                                         |
+| provision_state        | available                                                               |
+| provision_updated_at   | 2016-12-22T05:51:24+00:00                                               |
+| raid_config            |                                                                         |
+| reservation            | None                                                                    |
+| target_power_state     | None                                                                    |
+| target_provision_state | available                                                               |
+| target_raid_config     |                                                                         |
+| updated_at             | 2016-12-22T05:51:24+00:00                                               |
+| uuid                   | a0beb8c2-8fda-476a-b085-6e44e1fa71af                                    |
++------------------------+-------------------------------------------------------------------------+
+
+
+
+

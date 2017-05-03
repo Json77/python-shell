@@ -1,0 +1,22 @@
+nova flavor-key 20 set hw:compute_type=ironic
+
+
+flavorID=20
+NIC_UUID=$(neutron net-list | awk '/ deploynet1 / {print $2}')
+nova boot --flavor $flavorID --image my-centos --nic net-id=$NIC_UUID instance_partion_deploy
+
+
+ipmitool -I lanplus -H 10.43.166.5 -U USERID -P PASSW0RD chassis power status
+
+Êý¾Ý¿â²Ù×÷
+
+{u'memory_mb': u'131072', u'cpu_arch': u'x86_64', u'local_gb': u'277',   |
+|                        | u'cpus': u'48', u'capabilities': u'boot_option:local'} 
+
+
+ironic node-update $NODE_UUID add properties/cpus=48 properties/memory_mb=131072 properties/local_gb=277 properties/cpu_arch=x86_64
+
+ironic port-create -n $NODE_UUID -a 98:40:bb:81:37:4e
+
+
+systemctl restart openstack-ironic-* openstack-nova-* neutron-*
